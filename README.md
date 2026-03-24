@@ -9,14 +9,13 @@ Finite volume solvers with an emphasis on modelling surface water with the shall
 Setting up the project directly should just be (run from the root of the repository)
 
 ```bash
-julia --project
-] instantiate
+julia --project -e 'using Pkg; Pkg.instantiate()'
 ```
 
 It is probably a good idea to run all tests first verify everything installed correctly, so from the root of the repository, run
 
 ```bash
-julia --project test/runtests.jl
+julia --project -e 'using Pkg; Pkg.test()'
 ```
 
 ## Examples
@@ -26,11 +25,21 @@ We currently have a couple ofexamples for a full simulation scenario, see
   * `examples/urban.jl`
   * `examples/terrain.jl`
 
+Examples use a local environment with visualization and optional heavy dependencies:
+
+```bash
+julia --project=examples -e 'using Pkg; Pkg.develop(path="."); Pkg.instantiate()'
+julia --project=examples examples/shallow_water_1d.jl
+```
+
 ## Generating the documentation
 
 Run (note: currently takes a couple of minutes)
 
-    julia --project docs/make.jl
+```bash
+julia --project=docs -e 'using Pkg; Pkg.develop(path="."); Pkg.instantiate()'
+julia --project=docs docs/make.jl
+```
 
 To view the generated documentation, it is probably a good idea to install the `LiveServer` package and view said documentation through that
 
