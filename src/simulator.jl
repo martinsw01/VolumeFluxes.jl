@@ -18,7 +18,6 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-import ProgressMeter
 import ForwardDiff
 
 interior(state) = InteriorVolume(state)
@@ -190,11 +189,11 @@ function simulate_to_time(
     # TODO: Find a pragmatic and practical solution for the case where 
     # you have no water (meaning directional_dt = Inf), 
     # and you step to endtime in a single iteration 
-    prog = ProgressMeter.Progress(100;
-        enabled=show_progress,
-        desc="Simulating",
-        dt=2.0,
-    )
+    # prog = ProgressMeter.Progress(100;
+    #     enabled=show_progress,
+    #     desc="Simulating",
+    #     dt=2.0,
+    # )
     t = simulator.t
     while t[1] < endtime
         max_dt = match_endtime ? endtime - t[1] : Inf
@@ -203,8 +202,8 @@ function simulate_to_time(
         end
         perform_step!(simulator, max_dt)
         t[1] += simulator.current_timestep[1]
-        ProgressMeter.update!(prog, floor(Int64, t[1] / endtime * 100),
-            showvalues=[(:t, ForwardDiff.value(t[1])), (:dt, ForwardDiff.value(current_timestep(simulator)))])
+        # ProgressMeter.update!(prog, floor(Int64, t[1] / endtime * 100),
+        #     showvalues=[(:t, ForwardDiff.value(t[1])), (:dt, ForwardDiff.value(current_timestep(simulator)))])
         if !isnothing(callback)
             callback(t[1], simulator)
         end
